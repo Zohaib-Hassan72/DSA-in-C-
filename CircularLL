@@ -1,0 +1,101 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+struct Noda{
+	int data;
+	Noda* next;
+};
+Noda* head = NULL;
+
+void insert(int value){
+	Noda* NewNoda = new Noda();
+	NewNoda -> data = value;
+	NewNoda -> next = NULL;
+	
+	if (head == NULL){
+		head = NewNoda;
+		NewNoda -> next = head;
+		return;
+	}
+	Noda* curr = head;
+	while ( curr -> next != head){
+		curr = curr -> next;
+	}
+	curr -> next = NewNoda;
+	NewNoda -> next = head;	
+	}
+	
+void Display (void){
+	Noda* temp = head;
+	do{
+		cout << temp -> data << "->";
+		temp = temp -> next;
+		}
+	while ( temp != head);
+	
+	cout << "(head)\n";	
+}
+
+
+
+void Delete(int value){
+if (head == NULL) { cout << "List is empty\n"; return; }
+
+    // Find last node first
+    Noda* last = head;
+    while (last->next != head)
+        last = last->next;
+
+    // Case 1: delete head
+    if (value == head->data) {
+        if (head == last) {      // only one node in list
+            delete head;
+            head = NULL;
+            return;
+        }
+        Noda* temp = head;
+        head = head->next;       // ? move head forward FIRST
+        last->next = head;       // ? fix last node to point to new head
+        delete temp;             // ? THEN delete
+        return;
+    }
+
+    // Case 2: delete middle or last node
+    Noda* curr = head;
+    while (curr->next != head && curr->next->data != value) {
+        curr = curr->next;
+    }
+    if (curr->next == head) { cout << "Value not found\n"; return; }
+
+    Noda* toDelete = curr->next;
+    curr->next = toDelete->next;
+    delete toDelete;
+	}
+
+
+	
+int main(){
+	int value , select;
+	while (true){
+	
+		cout << "enter number 1 for insert , 2 for delete , 3 for display = "; 
+		cin >> select;
+		if ( select == 1){
+			cout << "enter value to be add = ";
+			cin >> value;
+			insert(value);
+		}
+		
+		else if ( select == 3){
+			Display();
+		}
+		else if ( select == 2){
+			cout << " enter no = ";
+			cin >> value;
+			Delete(value);
+		}
+		else{
+			cout << " Invalid Input";
+		}
+	}
+}
